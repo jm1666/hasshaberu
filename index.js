@@ -62,6 +62,7 @@ setInterval(() => {
   if (port.read(1) == null) {
     b();
   } else {
+    bellPlayed = false;
     a();
   }
 }, bellDuration);
