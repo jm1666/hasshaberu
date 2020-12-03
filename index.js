@@ -44,9 +44,11 @@ setInterval(() => {
   port.write("1"); // Test Switch Mode
 
   if (port.read(1) == null) {
+    rewriteConsole("Switch is Off.");
     b();
     // Switch is Off
   } else {
+    rewriteConsole("Switch is On.");
     bellPlayed = false;
     a();
     // Switch is On
@@ -57,4 +59,10 @@ function sleep(ms) {
   return new Promise((resolve) => {
     setTimeout(resolve, ms);
   });
+}
+
+function rewriteConsole(text) {
+  // https://stackoverflow.com/a/41355384
+  process.stdout.cursorTo(0);
+  process.stdout.write(text); // end the line
 }
