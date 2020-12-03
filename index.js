@@ -5,7 +5,6 @@ const { getAudioDurationInSeconds } = require("get-audio-duration");
 
 const port = new SerialPort(process.argv.slice(2)[0], {
   baudRate: 9600,
-  autoOpen: false,
 });
 
 let bellDuration = 0;
@@ -20,12 +19,6 @@ getAudioDurationInSeconds(process.argv.slice(2)[1]).then((duration) => {
 
 getAudioDurationInSeconds(process.argv.slice(2)[2]).then((duration) => {
   announcementDuration = duration * 1000;
-});
-
-port.open(function (err) {
-  if (err) {
-    return console.error("Error opening port: ", err.message);
-  }
 });
 
 const a = async () => {
@@ -57,13 +50,15 @@ const b = async () => {
 };
 
 setInterval(() => {
-  port.write("1");
+  port.write("1"); // Test Switch Mode
 
   if (port.read(1) == null) {
     b();
+    // Switch is Off
   } else {
     bellPlayed = false;
     a();
+    // Switch is On
   }
 }, bellDuration);
 
