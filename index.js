@@ -1,6 +1,5 @@
 const SerialPort = require("serialport");
-const SoundPlay = require("sound-play");
-const PlaySound = require("play-sound")({ player: "aplay" });
+const PlaySound = require("play-sound")();
 const { getAudioDurationInSeconds } = require("get-audio-duration");
 
 const port = new SerialPort(process.argv.slice(2)[0], {
@@ -24,12 +23,8 @@ getAudioDurationInSeconds(process.argv.slice(2)[2]).then((duration) => {
 const a = async () => {
   if (bellShouldPlaying == false) {
     bellShouldPlaying = true;
-    if (process.platform === "darwin" || process.platform === "win32") {
-      await SoundPlay.play(process.argv.slice(2)[1]);
-    } else if (process.platform === "linux") {
-      PlaySound.play(process.argv.slice(2)[1]);
-      await sleep(bellDuration);
-    }
+    PlaySound.play(process.argv.slice(2)[1]);
+    await sleep(bellDuration);
     bellPlayed = true;
     bellShouldPlaying = false;
   }
@@ -38,12 +33,8 @@ const a = async () => {
 const b = async () => {
   if (bellPlayed == true && announceShouldPlaying == false) {
     announceShouldPlaying = true;
-    if (process.platform === "darwin" || process.platform === "win32") {
-      await SoundPlay.play(process.argv.slice(2)[2]);
-    } else if (process.platform === "linux") {
-      PlaySound.play(process.argv.slice(2)[2]);
-      await sleep(announcementDuration);
-    }
+    PlaySound.play(process.argv.slice(2)[2]);
+    await sleep(announcementDuration);
     bellPlayed = false;
     announceShouldPlaying = false;
   }
