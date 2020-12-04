@@ -21,7 +21,7 @@ getAudioDurationInSeconds(process.argv.slice(2)[2]).then((duration) => {
 });
 
 const a = async () => {
-  if (bellShouldPlaying == false) {
+  if (bellShouldPlaying == false && announceShouldPlaying == false) {
     bellShouldPlaying = true;
     PlaySound.play(process.argv.slice(2)[1]);
     await sleep(bellDuration);
@@ -48,7 +48,7 @@ setInterval(() => {
     b();
     // Switch is Off
   } else {
-    rewriteConsole("Switch is On.");
+    rewriteConsole("Switch is On. ");
     bellPlayed = false;
     a();
     // Switch is On
